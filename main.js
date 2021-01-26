@@ -28,13 +28,18 @@ function speak(){
     var synth = window.speechSynthesis; //API To Convert Text To Speach
     // var data = document.getElementById("textbox").innerHTML;
 
-    var data = "Taking Your Selfie In 5 Seconds";
+    var data = "Taking Your Selfie In 10 Seconds";
     
     var readibleFormatData = new SpeechSynthesisUtterance(data);
     
     synth.speak(readibleFormatData);
 
     Webcam.attach(camera);
+
+    setTimeout(function (){
+        snapshot();
+        save();
+    }),10000
 }
 
 Webcam.set({
@@ -46,3 +51,20 @@ Webcam.set({
 
 var camera = document.getElementById("camera");
 
+function snapshot(){
+    Webcam.snap(function (data_uri){
+        console.log(data_uri);
+
+        document.getElementById("result").innerHTML =  "<img id = 'imgResult' src ='" + data_uri + "'>"
+    })
+}
+
+function save(){
+    var anchorTag = document.getElementById("link");
+
+    var imageResult = document.getElementById("imgResult").src;
+
+    anchorTag.href = imageResult;
+    
+    anchorTag.click();
+}
